@@ -29,8 +29,10 @@ def count(file_in_path):
 
     ispresent = [[[False for k in xrange(4)] for j in xrange(size * size)] for i in xrange(nbpieces)]
 
+    print "Processing lines :"
     while 1:
         lines = file_in.readlines(100000)
+        print ".",
         if not lines:
             break
         for line in xrange(len(lines)):
@@ -103,6 +105,7 @@ def main():
     args = parser.parse_args()
     # Opening the file
     for file_path in args.files_path:
+        print "File : " + file_path
         count(file_path)
     return
 
