@@ -28,7 +28,8 @@ def count(file_in_path):
     nbpieces = int(data[7])
 
     ispresent = [[[False for k in xrange(4)] for j in xrange(size * size)] for i in xrange(nbpieces)]
-    print "processing lines ...",
+    stdout.write("processing lines:")
+    stdout.flush()
     for line in file_in:
         line_tab = line.split(";")
         for depth in xrange(nbpieces):
