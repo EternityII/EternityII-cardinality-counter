@@ -22,8 +22,8 @@ def count(file_in_path):
     corrotation = int(data[1])
     pcnumber = int(data[2])
     pcrotation = int(data[3])
-    posx = int(data[5])
-    posy = int(data[6])
+    posx = int(data[4])
+    posy = int(data[5])
     hamming = int(data[6])
     nbpieces = int(data[7])
 
@@ -45,12 +45,46 @@ def count(file_in_path):
     countpieces(ispresent, counter, nbpieces, size)
 
     plate = [[0 for j in xrange(size)] for i in xrange(size)]
-    putonplate(counter, plate, posx, posy)
+    putonplate(counter, size, plate, posx, posy, hamming)
 
 
-def putonplate(counter, plate, posx, posy):
-    # TODO
-    print "todo"
+def putonplate(counter, size, plate, posx, posy, hamming):
+    cpt = 0
+    if posx < size:
+        plate[posx][posy] = counter[cpt]
+    cpt += 1
+    for i in xrange(1, hamming + 1):
+        posx += 1
+        for j in xrange(i):
+            if 0 <= posx < size and 0 <= posy < size:
+                plate[posx][posy] = counter[cpt]
+            cpt += 1
+            posx -= 1
+            posy += 1
+        for j in xrange(i):
+            if 0 <= posx < size and 0 <= posy < size:
+                plate[posx][posy] = counter[cpt]
+            cpt += 1
+            posx -= 1
+            posy -= 1
+        for j in xrange(i):
+            if 0 <= posx < size and 0 <= posy < size:
+                plate[posx][posy] = counter[cpt]
+            cpt += 1
+            posx += 1
+            posy -= 1
+        for j in xrange(i):
+            if 0 <= posx < size and 0 <= posy < size:
+                plate[posx][posy] = counter[cpt]
+            cpt += 1
+            posx += 1
+            posy += 1
+
+    s = [[str(e) for e in row] for row in plate]
+    lens = [max(map(len, col)) for col in zip(*s)]
+    fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
+    table = [fmt.format(*row) for row in s]
+    print '\n'.join(table)
 
 
 def countpieces(ispresent, counter, nbpieces, size):
