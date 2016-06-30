@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import argparse
 import os
-from pprint import pprint
+from sys import stdout
 
 
 def count(file_in_path):
@@ -32,7 +32,9 @@ def count(file_in_path):
     print "Processing lines :"
     while 1:
         lines = file_in.readlines(100000)
-        print ".",
+        stdout.write("%s" % ".")
+        stdout.flush()
+
         if not lines:
             break
         for line in xrange(len(lines)):
@@ -86,7 +88,7 @@ def putonplate(counter, size, plate, posx, posy, hamming):
     lens = [max(map(len, col)) for col in zip(*s)]
     fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
     table = [fmt.format(*row) for row in s]
-    print '\n'.join(table)
+    print '\n' + '\n'.join(table)
 
 
 def countpieces(ispresent, counter, nbpieces, size):
