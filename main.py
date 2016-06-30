@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import argparse
-# import os # unused
+import os  # unused
 from sys import stdout
 
 
@@ -94,7 +94,11 @@ def display_plate(plate, file_in_path, output):
     stdout.write("\r")
     stdout.flush()
     if output:
-        file_out = open("stat_" + file_in_path, "w+")
+        file_out = open(
+            os.path.join(
+                os.path.dirname(file_in_path),
+                "stat_" + os.path.basename(file_in_path)),
+            "w+")
         file_out.writelines('\n'.join(table))
     else:
         print '\n'.join(table)
