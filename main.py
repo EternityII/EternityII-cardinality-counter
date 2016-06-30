@@ -28,22 +28,14 @@ def count(file_in_path):
     nbpieces = int(data[7])
 
     ispresent = [[[False for k in xrange(4)] for j in xrange(size * size)] for i in xrange(nbpieces)]
-
-    print "Processing lines :"
-    while 1:
-        lines = file_in.readlines(100000)
-        stdout.write("%s" % ".")
-        stdout.flush()
-
-        if not lines:
-            break
-        for line in xrange(len(lines)):
-            line_tab = lines[line].split(";")
-            for depth in xrange(nbpieces):
-                pc = line_tab[depth].split(':')
-                if pc[0] != '-1':
-                    if ispresent[depth][int(pc[0])][int(pc[1])] is False:
-                        ispresent[depth][int(pc[0])][int(pc[1])] = True
+    print "processing lines ...",
+    for line in file_in:
+        line_tab = line.split(";")
+        for depth in xrange(nbpieces):
+            pc = line_tab[depth].split(':')
+            if pc[0] != '-1':
+                if ispresent[depth][int(pc[0])][int(pc[1])] is False:
+                    ispresent[depth][int(pc[0])][int(pc[1])] = True
 
     counter = [0 for i in xrange(nbpieces)]
     countpieces(ispresent, counter, nbpieces, size)
@@ -88,7 +80,9 @@ def putonplate(counter, size, plate, posx, posy, hamming):
     lens = [max(map(len, col)) for col in zip(*s)]
     fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
     table = [fmt.format(*row) for row in s]
-    print '\n' + '\n'.join(table)
+    stdout.write("\r")
+    stdout.flush()
+    print '\n'.join(table)
 
 
 def countpieces(ispresent, counter, nbpieces, size):
